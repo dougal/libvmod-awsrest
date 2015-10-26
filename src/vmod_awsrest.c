@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "vcl.h"
 #include "vrt.h"
 #include "cache/cache.h"
 
@@ -15,7 +16,7 @@
 
 
 int
-init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
+init_function(VRT_CTX, struct vmod_priv *priv, enum vcl_event_e e)
 {
 	return (0);
 }
@@ -116,8 +117,6 @@ void vmod_v4_generic(const struct vrt_ctx *ctx,
 	
 	////////////////
 	//get data
-	char *method;
-	char *requrl;
 	struct http *hp;
 	struct gethdr_s gs;
 	
@@ -130,8 +129,8 @@ void vmod_v4_generic(const struct vrt_ctx *ctx,
 		hp = ctx->http_req;
 		gs.where = HDR_REQ;
 	}
-	method= hp->hd[HTTP_HDR_METHOD].b;
-	requrl= hp->hd[HTTP_HDR_URL].b;
+	const char *method= hp->hd[HTTP_HDR_METHOD].b;
+	const char *requrl= hp->hd[HTTP_HDR_URL].b;
 
 	////////////////
 	//create date
